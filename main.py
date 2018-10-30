@@ -1,6 +1,9 @@
 from cmdserver import CmdServer
+import logging
 import signal
 import sys
+
+logging.basicConfig(format='[%(levelname)s] [%(name)s] %(message)s', level=logging.DEBUG)
 
 server = None
 
