@@ -22,7 +22,7 @@ class CmdServer:
 		server.listen(CmdServer.MAX_CLIENTS)
 		
 		self.serverThread = serverThread = threading.Thread(target=self.run)
-		serverThread.setDaemon(True)
+		
 		serverThread.start()
 		
 		logger.info('Started server on port %d with %d max clients' % (CmdServer.SERVER_PORT,CmdServer.MAX_CLIENTS))
@@ -30,23 +30,27 @@ class CmdServer:
 	def run(self):
 		while self.running:
 			try:
-				client = self.server.accept()
+				client, addr = self.server.accept()
 				logger.debug('Client connected...')
 				self.clientList.append(client)
-				threading.Thread(target=self.clientConnect, args=(client,)).start()
+				clientThread = threading.Thread(target=self.clientConnect, args=(client,))
+				clientThread.start()
 			except Exception as e:
-				logger.error('Exception during client accept: %s' % str(e))
+				logger.exception('Exception during client accept')
 				
 	def clientConnect(self, client):
 		client.settimeout(CmdServer.TIMEOUT)
 		
 		try:
-			req = client.recv(1024);
-			args = req.split(',')
+			logger.debug('Waiting...')
+			req = client.recv(1024)
+			logger.debug('Recevied %s' % str(req))
+			args = req.decode('utf-8').split(',')
 			cmd = args.pop(0)
-			logger.debug('CMD received: %s [%s]' % (cmd, args))
+			logger.debug('CMD received: %s %s' % (cmd, args))
+			client.send('END'.encode('utf-8'))
 		except Exception as e:
-			logger.error('Exception during client processing: %s' % str(e))
+			logger.exception('Exception during client processing')
 		
 		client.close()
 		self.clientList.remove(client)

@@ -3,7 +3,7 @@ import logging
 import signal
 import sys
 
-logging.basicConfig(filename='console.log',format='[%(levelname)s] [%(name)s] %(message)s', level=logging.DEBUG)
+logging.basicConfig(format='[%(levelname)s] [%(name)s] %(message)s', level=logging.DEBUG, handlers=[ logging.FileHandler("console.log"), logging.StreamHandler() ])
 
 server = None
 
