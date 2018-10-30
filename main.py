@@ -3,7 +3,7 @@ import logging
 import signal
 import sys
 
-logging.basicConfig(format='[%(levelname)s] [%(name)s] %(message)s', level=logging.DEBUG)
+logging.basicConfig(filename='console.log',format='[%(levelname)s] [%(name)s] %(message)s', level=logging.DEBUG)
 
 server = None
 
