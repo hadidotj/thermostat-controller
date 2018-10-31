@@ -95,5 +95,14 @@ for importer, package_name, _ in pkgutil.iter_modules([dir]):
 	full_package_name = 'cmds.' + package_name
 	if full_package_name not in sys.modules:
 		module = importer.find_module(package_name).load_module(package_name)
-		CmdServer.cmdHandlers[module.cmd] = module.handler
-		logger.info('Loaded command [%s]' % module.cmd)
+		if hasattr(module, 'handlers'):
+			for cmd,handle in module.handlers.items():
+				CmdServer.cmdHandlers[cmd] = handle
+				logger.info('Loaded command [%s]' % cmd)
+		elif not hasattr(module, 'cmd'):
+			logger.error('Command module [%s] did not specify a single cmd or a dict of handlers' % package_name)
+		elif not hasattr(module, 'handler'):
+			logger.error('Command module [%s] did not specify a handler for the single cmd [%s]' % (package_name,module.cmd))
+		else:
+			CmdServer.cmdHandlers[module.cmd] = module.handler
+			logger.info('Loaded command [%s]' % module.cmd)
