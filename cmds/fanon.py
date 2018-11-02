@@ -2,13 +2,13 @@ import state
 
 def fanOn(client,args):
 	turnedOn = state.relays.fanOn()
-	msg = 'ok' if turnedOn else 'no'
-	client.send(msg.encode('utf-8'))
+	msg = b'ok' if turnedOn else b'no'
+	client.send(msg)
 
 def fanOff(client,args):
 	turnedOff = state.relays.fanOff()
-	msg = 'ok' if turnedOff else 'no'
-	client.send(msg.encode('utf-8'))
+	msg = b'ok' if turnedOff else b'no'
+	client.send(msg)
 
 handlers = {
 	'fanon': fanOn,

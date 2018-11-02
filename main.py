@@ -1,10 +1,13 @@
 import logging
-logging.basicConfig(format='[%(levelname)s] [%(name)s] %(message)s', level=logging.DEBUG, handlers=[ logging.FileHandler("console.log"), logging.StreamHandler() ])
+import sys
+level = logging.DEBUG if '--debug' in sys.argv else logging.INFO
+logging.basicConfig(format='[%(levelname)s] [%(name)s] %(message)s', level=level, handlers=[ logging.FileHandler("console.log"), logging.StreamHandler() ])
 
 import cmdserver
+import scheduler
+
 import signal
 import state
-import sys
 
 def shutdown(sig, frame):
 	for handler in state.shutdownHandlers:

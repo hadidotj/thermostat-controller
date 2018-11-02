@@ -5,9 +5,12 @@ import logging
 
 logger = logging.getLogger('State');
 
+relays = Relays()
 settings = {}
 rooms = {}
-relays = Relays()
+avgTmp = 0.0
+setTmp = 0.0
+offset = 1.5
 
 # Load the settings from the settings file!
 try:
