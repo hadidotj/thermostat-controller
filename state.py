@@ -6,11 +6,8 @@ import logging
 logger = logging.getLogger('State');
 
 relays = Relays()
-settings = {}
+settings = {'setTmp': 70, 'offset':1.5, 'mode': 'OFF'}
 rooms = {}
-avgTmp = 0.0
-setTmp = 0.0
-offset = 1.5
 
 # Load the settings from the settings file!
 try:
@@ -18,6 +15,8 @@ try:
 		settings = json.load(f)
 except:
 	logger.warn('Settings file not found... Using defaults!')
+	
+avgTmp = settings['setTmp']
 
 # Save settings durning shutdown!
 def saveSettings():
@@ -33,4 +32,4 @@ def relaysOff():
 	relays.heatOff()
 	relays.coolOff()
 
-shutdownHandlers = [saveSettings]
+shutdownHandlers = [saveSettings,relaysOff]

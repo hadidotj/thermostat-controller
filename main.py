@@ -1,5 +1,6 @@
 import logging
 import sys
+
 level = logging.DEBUG if '--debug' in sys.argv else logging.INFO
 logging.basicConfig(format='[%(levelname)s] [%(name)s] %(message)s', level=level, handlers=[ logging.FileHandler("console.log"), logging.StreamHandler() ])
 
