@@ -31,6 +31,6 @@ handlers = {
 	'fanoff': fanOff,
 	'mode': setMode,
 	'setTmp': setTmp,
-	'offset': offset,
+	'offset': setOffset,
 	'status': status
 }
