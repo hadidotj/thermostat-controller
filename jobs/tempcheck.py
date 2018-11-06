@@ -34,6 +34,10 @@ class TempCheck(Job):
 			# Or turn heat on
 			elif mode == 'HEAT' and not relays.isHeatOn():
 				relays.heatOn()
+			
+			# Or maybe we switched modes?
+			elif mode == 'COOL' and relays.isHeatOn():
+				relays.heatOff()
 		
 		# Is the current temp above set temp?
 		elif avgTmp > setTmp+offset:
@@ -44,7 +48,11 @@ class TempCheck(Job):
 				relays.heatOff()
 				
 			# Or turn cool on
-			elif mode == 'COOL':
+			elif mode == 'COOL' and not relays.isCoolOn():
 				relays.coolOn()
+				
+			# Or maybe we switched modes
+			elif mode == 'HEAT' and relays.isCoolOn():
+				relays.coolOff()
 
 TempCheck()

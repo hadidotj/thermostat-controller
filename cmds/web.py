@@ -1,3 +1,4 @@
+import json
 import state
 
 def fanOn(client,args):
@@ -23,8 +24,16 @@ def setOffset(client,args):
 	client.send(b'ok')
 	
 def status(client,args):
-	dict = {'avgTmp':state.avgTmp,'rooms':state.rooms,'settings':state.settings}
-	client.send(str(dict).replace('\'','"').encode())
+	relays = state.relays
+	dict = {
+		'avgTmp':state.avgTmp,
+		'rooms':state.rooms,
+		'settings':state.settings,
+		'heat':relays.isHeatOn(),
+		'cool':relays.isCoolOn(),
+		'fan':relays.isFanOn()
+	}
+	client.send(json.dumps(dict).encode())
 
 handlers = {
 	'fanon': fanOn,
