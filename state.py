@@ -6,7 +6,7 @@ import logging
 logger = logging.getLogger('State');
 
 relays = Relays()
-settings = {'setTmp': 70, 'offset':1.0, 'mode': 'OFF'}
+settings = {'setTmp': 70, 'offset':1.0, 'mode': 'OFF', 'roomnames': {'bf88cfec0': 'Living Room'}}
 rooms = {}
 
 # Load the settings from the settings file!
