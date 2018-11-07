@@ -8,7 +8,7 @@ def update(client,args):
 	newt = (float(args[1])*9.0/5.0)+32.0
 	newh = float(args[2])
 	
-	avgwo = state.avgTmp*len(state.rooms)-state.rooms[room][0] if room in state.rooms else 0
+	avgwo = state.avgTmp*len(state.rooms)-state.rooms[room][0] if room in state.rooms else state.avgTmp
 	
 	state.rooms[room] = (newt,newh)
 	state.avgTmp = (avgwo+newt)/len(state.rooms)
