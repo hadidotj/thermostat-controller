@@ -88,7 +88,7 @@ class CmdServer:
 		logger.info('Server shutdown successfully')
 
 mainServer = CmdServer()
-state.shutdownHandlers.append(mainServer.stop)
+state.shutdownHandlers.insert(0, mainServer.stop)
 
 dir = dirname(__file__) + '/cmds'
 for importer, package_name, _ in pkgutil.iter_modules([dir]):

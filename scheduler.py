@@ -108,7 +108,7 @@ class OneTimeJob(Job):
 			self.stop()
 
 mainScheduler = Scheduler()
-state.shutdownHandlers.append(mainScheduler.stop)
+state.shutdownHandlers.insert(1, mainScheduler.stop)
 
 dir = dirname(__file__) + '/jobs'
 for importer, package_name, _ in pkgutil.iter_modules([dir]):

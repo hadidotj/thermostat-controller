@@ -1,4 +1,5 @@
 from relays import Relays
+import tracker
 import os
 import json
 import logging
@@ -8,6 +9,7 @@ logger = logging.getLogger('State');
 relays = Relays()
 settings = {'setTmp': 70, 'offset':1.0, 'mode': 'OFF', 'roomnames': {'bf88cfe0': 'Living Room','bf83c180':'Bed Room'}}
 rooms = {}
+inactiveRooms = []
 
 # Load the settings from the settings file!
 try:
@@ -36,4 +38,4 @@ def relaysOff():
 	relays.heatOff()
 	relays.coolOff()
 
-shutdownHandlers = [saveSettings,relaysOff]
+shutdownHandlers = [saveSettings,relaysOff,tracker.shutdown]

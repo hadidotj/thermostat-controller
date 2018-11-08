@@ -1,5 +1,6 @@
 from gpiozero import OutputDevice
 import logging
+import tracker
 
 logger = logging.getLogger('Relays')
 
@@ -20,6 +21,7 @@ class Relays:
 	def fanOn(self):
 		if(not self.fan.value):
 			self.fan.on()
+			tracker.trackRelay('FAN', 1)
 			logger.info('Fan ON')
 			return True
 		return False
@@ -27,6 +29,7 @@ class Relays:
 	def fanOff(self):
 		if(self.fan.value):
 			self.fan.off()
+			tracker.trackRelay('FAN', 0)
 			logger.info('Fan OFF')
 			return True
 		return False
@@ -37,6 +40,7 @@ class Relays:
 	def heatOn(self):
 		if(not self.heat.value and not self.cool.value):
 			self.heat.on()
+			tracker.trackRelay('HEAT', 1)
 			logger.info('Heat ON')
 			return True
 		return False
@@ -44,6 +48,7 @@ class Relays:
 	def heatOff(self):
 		if(self.heat.value):
 			self.heat.off()
+			tracker.trackRelay('HEAT', 0)
 			logger.info('Heat OFF')
 			return True
 		return False
@@ -54,6 +59,7 @@ class Relays:
 	def coolOn(self):
 		if(not self.cool.value and not self.heat.value):
 			self.cool.on()
+			tracker.trackRelay('COOL', 1)
 			logger.info('Cool ON')
 			return True
 		return False
@@ -61,6 +67,7 @@ class Relays:
 	def coolOff(self):
 		if(self.cool.value):
 			self.cool.off()
+			tracker.trackRelay('COOL', 0)
 			logger.info('Cool OFF')
 			return True
 		return False

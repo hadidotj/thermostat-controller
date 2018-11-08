@@ -1,19 +1,39 @@
 from scheduler import Job
 import logging
 import state
+import time
 
 log = logging.getLogger('TempCheck')
 
 class TempCheck(Job):
 	def process(self):
-
-		avgTmp = state.avgTmp
+	
 		relays = state.relays
 		settings = state.settings
 		
 		setTmp = settings['setTmp']
 		offset = settings['offset']
 		mode = settings['mode']
+		
+		# Calculate average temp
+		avg = 0
+		activeRooms = 0
+		state.inactiveRooms = []
+		minAgo = time.time()-60
+		for name in state.rooms:
+			room = state.rooms[name]
+			if room[2] > minAgo:
+				avg += room[0]
+				activeRooms += 1
+			else:
+				state.inactiveRooms.append(name)
+
+		# Abort if the number of active rooms is 0...
+		if activeRooms <= 0:
+			log.error('No active sensors! Cannot determine average temperature')
+			return
+
+		avgTmp = state.avgTmp = avg/activeRooms
 		
 		# If the mode is OFF, make sure everything is off
 		if mode == 'OFF':
