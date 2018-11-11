@@ -18,7 +18,6 @@ class TempCheck(Job):
 		# Calculate average temp
 		avg = 0
 		activeRooms = 0
-		state.inactiveRooms = []
 		minAgo = time.time()-60
 		for name in state.rooms:
 			room = state.rooms[name]
@@ -26,7 +25,7 @@ class TempCheck(Job):
 				avg += room[0]
 				activeRooms += 1
 			else:
-				state.inactiveRooms.append(name)
+				state.rooms[name] = (0,0,room[2])
 
 		# Abort if the number of active rooms is 0...
 		if activeRooms <= 0:

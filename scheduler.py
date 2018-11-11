@@ -80,12 +80,16 @@ class Job:
 			self.processThread.start()
 	
 	def run(self):
-		self.process()
-		self.tick = self.delay
-		self.processThread = None
-		
-		if self.stopflag:
-			self.stopinternal()
+		try:
+			self.process()
+		except:
+			logger.exception('%s threw error during processing' % __class__)
+		finally:
+			self.tick = self.delay
+			self.processThread = None
+			
+			if self.stopflag:
+				self.stopinternal()
 				
 	def process(self):
 		logger.error('%s does not override the Job.process method. Stopping this job.' % self.__class__.__name__)
