@@ -14,7 +14,7 @@ class Relays:
 
 	def __init__(self):
 		self.fan = OutputDevice(Relays.FAN_PIN, False)
-		self.heat = OutputDevice(Relays.HEAT_PIN, Fals)
+		self.heat = OutputDevice(Relays.HEAT_PIN, False)
 		self.heat2 = OutputDevice(Relays.HEAT_SECONDARY_PIN, False)
 		self.cool = OutputDevice(Relays.COOL_PIN, False)
 		self.fan_time = self.heat_time = self.cool_time = None
