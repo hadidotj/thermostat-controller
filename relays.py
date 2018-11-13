@@ -7,14 +7,16 @@ logger = logging.getLogger('Relays')
 
 class Relays:
 
-	FAN_PIN = 14
-	HEAT_PIN = 15
-	COOL_PIN = 18
+	FAN_PIN = 17
+	HEAT_PIN = 22
+	HEAT_SECONDARY_PIN = 23
+	COOL_PIN = 27
 
 	def __init__(self):
-		self.fan = OutputDevice(Relays.FAN_PIN)
-		self.heat = OutputDevice(Relays.HEAT_PIN)
-		self.cool = OutputDevice(Relays.COOL_PIN)
+		self.fan = OutputDevice(Relays.FAN_PIN, False)
+		self.heat = OutputDevice(Relays.HEAT_PIN, Fals)
+		self.heat2 = OutputDevice(Relays.HEAT_SECONDARY_PIN, False)
+		self.cool = OutputDevice(Relays.COOL_PIN, False)
 		self.fan_time = self.heat_time = self.cool_time = None
 
 	def isFanOn(self):
