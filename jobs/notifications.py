@@ -16,16 +16,22 @@ class Notifications(Job):
 		self.last_temp_time = None
 		self.last_temp_count = 0
 		self.last_warn_time = None
+		self.skip_count = 12
 
 	def process(self):
+		self.skip_count-=1
+		if self.skip_count>0:
+			return
+		
 		currentTime = time.time()
 		hour = 3600
-		'''
+		
+		# Check if there are any sensors in the first place...
 		if len(state.rooms) == 0:
 			if self.last_nosense_time is None or self.last_nosense_time+hour <= currentTime:
 				self.last_nosense_time = time.time()
 				self.notifyNoSensors()
-		'''
+		
 		inactiveRooms = []
 		tempWarnings = []
 		minAgo = time.time()-60
