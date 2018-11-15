@@ -29,7 +29,7 @@ def status(client,args):
 		'avgTmp':state.avgTmp,
 		'rooms':state.rooms,
 		'settings':state.settings,
-		'heat':{'runing': relays.isHeatOn(), 'time': relays.heat_time},
+		'heat':{'running': relays.isHeatOn(), 'time': relays.heat_time},
 		'cool':{'running': relays.isCoolOn(), 'time': relays.cool_time},
 		'fan':{'running': relays.isFanOn(), 'time': relays.fan_time}
 	}
