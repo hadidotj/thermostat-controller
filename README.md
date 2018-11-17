@@ -24,13 +24,13 @@ Total Cost<sup>*</sup>: $94.47
 ### Temp/Humidity Sensor(s)
 1. [ESP-WROOM-32 x2](https://www.amazon.com/dp/B0718T232Z) $21.98
 2. [Small Breadbaords x3](https://www.amazon.com/dp/B01EV640I6) $8.21
-3. [DHT22 Temp & Humidity Sensor x2](https://www.amazon.com/dp/B0795F19W6)...
+3. [DHT22 Temp & Humidity Sensor x2](https://www.amazon.com/dp/B0795F19W6) 
 $10.99
 4. [Set of Jumper Wires](https://www.amazon.com/dp/B01EV70C78) $-.--
 5. [5v 1A USB Power Supply x3](https://www.amazon.com/dp/B076C6PW2V) $8.99
 6. [Micro USB Cable x3](https://www.amazon.com/dp/B072J1BSV6) $7.99
 
-Total Cost<sup>*</sup>: $58.16...
+Total Cost<sup>*</sup>: $58.16  
 Total Per Sensor<sup>*</sup>: $24.89
 
 <sup>*</sup>Not including tax
