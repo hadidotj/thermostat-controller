@@ -9,7 +9,7 @@ seconds. When the temperature reaches below or above the set threshold, it
 truns on the correct relay to signal the furnace or air conditioner to turn on.
 
 Part Lists
-————————--
+----------
 
 ### Theromostat Controller
 1. [Raspberry Pi 3 B+](https://www.amazon.com/dp/B07BDR5PDW) $39.30
@@ -18,6 +18,7 @@ Part Lists
 4. [4-Channel Relay Module](https://www.amazon.com/dp/B0057OC5O8) $8.99
 5. [Set of Jumper Wires](https://www.amazon.com/dp/B01EV70C78) $6.98
 6. [5 Conductor Thermostat Wire](https://www.amazon.com/dp/B0069F4HHC) $19.22
+
 Total Cost<sup>*</sup>: $94.47
 
 ### Temp/Humidity Sensor(s)
@@ -28,7 +29,8 @@ $10.99
 4. [Set of Jumper Wires](https://www.amazon.com/dp/B01EV70C78) $-.--
 5. [5v 1A USB Power Supply x3](https://www.amazon.com/dp/B076C6PW2V) $8.99
 6. [Micro USB Cable x3](https://www.amazon.com/dp/B072J1BSV6) $7.99
-Total Cost<sup>*</sup>: $58.16
+
+Total Cost<sup>*</sup>: $58.16...
 Total Per Sensor<sup>*</sup>: $24.89
 
 <sup>*</sup>Not including tax
