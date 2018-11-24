@@ -8,6 +8,7 @@ logger = logging.getLogger('State');
 
 relays = Relays()
 rooms = {}
+tmpHold = False
 settings = {
 	'setTmp': 70,
 	'offset':1.0,
@@ -16,14 +17,18 @@ settings = {
 	'toCold': 60,
 	'roomnames': {
 		'bf88cfe0': 'Living',
-		'bf83c180':'Bed'
+		'bf83c180': 'Bed'
+	},
+	'schedule': {
+		'weekday': [{'5:30':69.0},{'8:00':65.0},{'16:30':70.0},{'23:00':65.0}],
+		'weekend': [{'6:00':70.00},{'23:00':65.0}]
 	}
 }
 
 # Load the settings from the settings file!
 try:
 	with open('settings.json') as f:
-		settings = json.load(f)
+		settings = {**settings, **json.load(f)}
 		logger.info('Loaded settings from file')
 		logger.info(settings)
 except:
