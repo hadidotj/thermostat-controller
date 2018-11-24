@@ -64,8 +64,10 @@ class CmdServer:
 			logger.warn('Client took too long to send a command')
 		except Exception as e:
 			logger.exception('Exception during client processing')
-		
-		client.close()
+		try:
+			client.shutdown(socket.SHUT_RDWR)
+		finally:
+			client.close()
 		self.clientList.remove(client)
 		
 	def stop(self):
