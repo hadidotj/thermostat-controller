@@ -13,6 +13,7 @@ def update(client,args):
 	state.rooms[room] = (newt,newh,time.time())
 	tracker.trackTemp(room,newt,newh)
 	logger.debug('%s %.2f°C %.2f%%' % (room,newt,newh))
+	time.sleep(1)
 
 handlers = {
 	'sup': update
