@@ -15,6 +15,10 @@ settings = {
 	'mode': 'OFF',
 	'toHot': 80,
 	'toCold': 60,
+	'offsets': {
+		'heat': [1,1],
+		'cool': [1,1]
+	},
 	'roomnames': {
 		'bf88cfe0': 'Living',
 		'bf83c180': 'Bed'

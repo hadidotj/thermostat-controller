@@ -82,6 +82,7 @@ class Notifications(Job):
 				self.notifyLongTime(fanTime, heatTime, coolTime)
 		elif self.last_warn_time is not None:
 			self.notifyLongTime(False, False, False)
+			self.last_warn_time = None
 	
 	def notifyNoSensors(self, nosense=True):
 		log.info('Sending No Sensors Notification')
@@ -133,11 +134,12 @@ class Notifications(Job):
 		self.sendNotification(msg)
 		
 	def sendNotification(self, msg):
-		server = smtplib.SMTP('smtp.gmail.com', 587)
+		eset = state.settings['email']
+		server = smtplib.SMTP(eset['server'], eset['port'])
 		server.starttls()
-		server.login('hadidotj@gmail.com', 'mqncohgvigppqaqo')
+		server.login(eset['user'], eset['password'])
 		
-		server.sendmail('hadidotj@gmail.com', ['6145812604@vtext.com'], msg)
+		server.sendmail(eset['from'], eset['to'], msg)
 		server.quit()
 
 Notifications()
