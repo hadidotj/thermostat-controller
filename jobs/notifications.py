@@ -16,6 +16,7 @@ class Notifications(Job):
 		self.last_temp_time = None
 		self.last_temp_count = 0
 		self.last_warn_time = None
+		self.relay_time = [None,None,None]
 		self.skip_count = 12
 
 	def process(self):
@@ -25,12 +26,16 @@ class Notifications(Job):
 		
 		currentTime = time.time()
 		hour = 3600
+		halfHour = hour/2
 		
 		# Check if there are any sensors in the first place...
 		if len(state.rooms) == 0:
 			if self.last_nosense_time is None or self.last_nosense_time+hour <= currentTime:
 				self.last_nosense_time = time.time()
 				self.notifyNoSensors()
+		elif self.last_nosense_time is not None:
+			self.notifyNoSensors(False)
+			self.last_nosense_time = None
 		
 		inactiveRooms = []
 		tempWarnings = []
@@ -50,42 +55,56 @@ class Notifications(Job):
 			if inactiveCount!=self.last_sensor_count or self.last_sensor_time is None or self.last_sensor_time+hour <= currentTime:
 				self.last_sensor_time = time.time()
 				self.notifySensorInactive(inactiveRooms)
+		elif self.last_sensor_time is not None:
+			self.notifySensorInactive(inactiveRooms)
+			self.last_sensor_time = None
 		self.last_sensor_count = inactiveCount
 		
 		# check for temperature warnings
 		tempCount = len(tempWarnings)
 		if tempCount > 0:
-			if tempCount!=self.last_temp_count or self.last_temp_time is None or self.last_temp_time+hour <= currentTime:
+			if tempCount!=self.last_temp_count or self.last_temp_time is None or self.last_temp_time+300 <= currentTime:
 				self.last_temp_time = time.time()
 				self.notifyTempWarning(tempWarnings)
+		elif self.last_temp_time is not None:
+			self.notifyTempWarning(tempWarnings)
+			self.last_temp_time = None
 		self.last_temp_count = tempCount
 		
 		# check for long run times
 		relays = state.relays
-		fanTime = (relays.fan_time is not None and relays.fan_time+hour <= currentTime)
-		heatTime = (relays.heat_time is not None and relays.heat_time+hour <= currentTime)
-		coolTime = (relays.cool_time is not None and relays.cool_time+hour <= currentTime)
+		fanTime = (relays.fan_time is not None and relays.fan_time+halfHour <= currentTime)
+		heatTime = (relays.heat_time is not None and relays.heat_time+halfHour <= currentTime)
+		coolTime = (relays.cool_time is not None and relays.cool_time+halfHour <= currentTime)
 		if fanTime or heatTime or coolTime:
-			if self.last_warn_time is None or self.last_warn_time+hour <= currentTime:
+			if self.last_warn_time is None or self.last_warn_time+halfHour <= currentTime:
 				self.last_warn_time = time.time()
 				self.notifyLongTime(fanTime, heatTime, coolTime)
+		elif self.last_warn_time is not None:
+			self.notifyLongTime(False, False, False)
 	
-	def notifyNoSensors(self):
+	def notifyNoSensors(self, nosense=True):
 		log.info('Sending No Sensors Notification')
-		self.sendNotification('NO SENSORS')
+		self.sendNotification('NO SENSORS' if nosense else ('%d Sensors Connected' % len(state.rooms)))
 		
 	def notifySensorInactive(self, inactiveRooms):
 		log.info('Sending Sensor Fail Notification')
-		msg = 'SENSOR FAIL\n'
-		for room in inactiveRooms:
-			msg += room + '\n'
-		self.sendNotification(msg)
+		if len(inactiveRooms)>0:
+			msg = 'SENSOR FAIL\n'
+			for room in inactiveRooms:
+				msg += room + '\n'
+			self.sendNotification(msg)
+		else:
+			self.sendNotification('SENSORS RESTORED')
 		
 	def notifyTempWarning(self, tempWarnings):
 		log.info('Sending Temp Warning Notification')
-		msg = 'TEMP WARNING\n'
-		for warn in tempWarnings:
-			msg += warn + '\n'
+		if len(tempWarnings)>0:
+			msg = 'TEMP WARNING\n'
+			for warn in tempWarnings:
+				msg += warn + '\n'
+		else:
+			msg = 'TEMP RESTORED'
 		self.sendNotification(msg)
 		
 	def notifyLongTime(self, fanTime, heatTime, coolTime):
@@ -93,20 +112,33 @@ class Notifications(Job):
 		relays = state.relays
 		currentTime = time.time()
 		msg = 'LONG RUNTIME\n'
+		if not fanTime and not heatTime and not coolTime:
+			msg = 'RUN END\n'
+			if self.relay_time[0] is not None:
+				msg += 'Fan Ran %.2fmin\n' % ((currentTime - self.relay_time[0]) / 60)
+			if self.relay_time[1] is not None:
+				msg += 'Heat Ran %.2fmin\n' % ((currentTime - self.relay_time[1]) / 60)
+			if self.relay_time[2] is not None:
+				msg += 'Cool Ran %.2fmin\n' % ((currentTime - self.relay_time[2]) / 60)
+			self.relay_time = [None,None,None]
 		if fanTime:
 			msg += 'Fan %.2fmin\n' % ((currentTime-relays.fan_time)/60)
+			self.relay_time[0] = relays.fan_time
 		if heatTime:
 			msg += 'Heat %.2fmin\n' % ((currentTime-relays.heat_time)/60)
+			self.relay_time[1] = relays.heat_time
 		if coolTime:
 			msg += 'Cool %.2fmin\n' % ((currentTime-relays.cool_time)/60)
+			self.relay_time[2] = relays.cool_time
 		self.sendNotification(msg)
 		
 	def sendNotification(self, msg):
 		server = smtplib.SMTP('smtp.gmail.com', 587)
 		server.starttls()
 		server.login('hadidotj@gmail.com', 'mqncohgvigppqaqo')
-		 
+		
 		server.sendmail('hadidotj@gmail.com', ['6145812604@vtext.com'], msg)
 		server.quit()
 
 Notifications()
+
