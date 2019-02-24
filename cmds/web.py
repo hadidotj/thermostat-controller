@@ -38,7 +38,7 @@ def status(client, args):
     relays = state.relays
     dict = {
         'avgTmp': state.avgTmp,
-        'rooms': [x.read() for x in state.rooms],
+        'rooms': {id: state.rooms[id].read() for id in state.rooms},
         'settings': state.settings,
         'heat': {'running': relays.isHeatOn(), 'time': relays.heat_time},
         'cool': {'running': relays.isCoolOn(), 'time': relays.cool_time},
