@@ -39,7 +39,7 @@ class Scheduler:
 		self.running = False
 		
 		# Gah! We need to copy the list because Job.stop removes from Scheduler.jobs,
-		# and some jobs don’t get Job.stop called because the original list changed!
+		# and some jobs donï¿½t get Job.stop called because the original list changed!
 		# No conccurrent modification exception...
 		stopList = Scheduler.jobs.copy()
 		for job in stopList:
