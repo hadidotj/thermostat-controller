@@ -4,5 +4,6 @@ __pycache__
 *.db
 
 .idea
+*.iml
 
 gpiozero.py

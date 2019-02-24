@@ -1,0 +1,18 @@
+# Add to /lib/systemd/system/thermostat.service
+#  > sudo systemctl daemon-reload
+#  > sudo systemctl enable thermostat
+#  > sudo systemctl start thermostat
+
+[Unit]
+Description=Thermostat Service
+After=multi-user.target
+
+[Service]
+Type=idle
+WorkingDirectory=/opt/thermostat
+ExecStart=/usr/bin/python3 /opt/thermostat/main.py
+TimeoutStopSec=60
+SuccessExitStatus=SIGKILL
+
+[Install]
+WantedBy=multi-user.target
