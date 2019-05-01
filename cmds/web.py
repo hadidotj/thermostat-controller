@@ -43,7 +43,8 @@ def status(client, args):
         'heat': {'running': relays.isHeatOn(), 'time': relays.heat_time},
         'cool': {'running': relays.isCoolOn(), 'time': relays.cool_time},
         'fan': {'running': relays.isFanOn(), 'time': relays.fan_time},
-        'hold': state.tmpHold
+        'hold': state.tmpHold,
+        'weather': state.weather
     }
     client.send(json.dumps(dict).encode())
 
