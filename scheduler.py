@@ -65,7 +65,8 @@ class Job:
 
 	def __init__(self, delay=Scheduler.DEFAULT_DELAY):
 		self.stopflag = False
-		self.delay = self.tick = delay
+		self.delay = delay
+		self.tick = 0
 		self.processThread = None
 		Scheduler.jobs.append(self)
 		

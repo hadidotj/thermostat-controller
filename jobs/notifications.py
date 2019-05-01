@@ -21,7 +21,7 @@ class Notifications(Job):
 
     def process(self):
         self.skip_count -= 1
-        if self.skip_count > 0:
+        if self.skip_count > 0 or 'email' not in state.settings:
             return
 
         currentTime = time.time()

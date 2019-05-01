@@ -10,6 +10,7 @@ relays = Relays()
 rooms = {}
 tmpHold = False
 settings = {}
+weather = {}
 
 # First, load defaults (or newly added settings
 try:

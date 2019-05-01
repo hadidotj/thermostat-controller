@@ -12,7 +12,7 @@ Type=idle
 WorkingDirectory=/opt/thermostat
 ExecStart=/usr/bin/python3 /opt/thermostat/main.py
 TimeoutStopSec=60
-SuccessExitStatus=SIGKILL
+SuccessExitStatus=0 1 SIGKILL
 
 [Install]
 WantedBy=multi-user.target
