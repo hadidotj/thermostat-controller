@@ -10,14 +10,28 @@ currentSchedule = None
 class AutoSchedule(Job):
 
 	def process(self):
+		global currentSchedule
+	
 		# If the temp is held, don't let the schedule change it!
 		if state.tmpHold:
 			log.debug('Temp held. Not checking schedule.')
 			return
+			
+		# Reset the schedule if set to OFF and return
+		mode = state.settings['mode']
+		if mode == 'OFF':
+			currentSchedule = None
+			log.debug('Current mode is OFF. No schedule change necessary.')
+			return
+		
+		# Skip out if there is no schedule for this mode
+		schedules = state.settings['schedule']
+		if mode not in schedules:
+			log.warn('No schedule created for %s mode.' % mode)
+			return
 		
 		# Get what scheduled time we should be in now
-		global currentSchedule
-		schedule = state.settings['schedule']
+		schedule = schedules[mode]
 		now = datetime.datetime.today()
 		dayOfWork = now.weekday()
 		name = 'weekday' if dayOfWork<5 else 'weekend'
@@ -57,5 +71,6 @@ class AutoSchedule(Job):
 			state.settings['setTmp'] = changeTo
 		else:
 			log.debug('No change at this time')
+
 
 AutoSchedule()
