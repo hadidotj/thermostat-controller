@@ -3,6 +3,7 @@ import logging
 import smtplib
 import state
 import time
+import util
 
 log = logging.getLogger('Notifications')
 
@@ -117,20 +118,20 @@ class Notifications(Job):
         if not fanTime and not heatTime and not coolTime:
             msg = 'RUN END\n'
             if self.relay_time[0] is not None:
-                msg += 'Fan Ran %.2fmin\n' % ((currentTime - self.relay_time[0]) / 60)
+                msg += 'Fan Ran %.2fmin\n' % fmtTime((currentTime - self.relay_time[0]) / 60)
             if self.relay_time[1] is not None:
-                msg += 'Heat Ran %.2fmin\n' % ((currentTime - self.relay_time[1]) / 60)
+                msg += 'Heat Ran %.2fmin\n' % fmtTime((currentTime - self.relay_time[1]) / 60)
             if self.relay_time[2] is not None:
-                msg += 'Cool Ran %.2fmin\n' % ((currentTime - self.relay_time[2]) / 60)
+                msg += 'Cool Ran %.2fmin\n' % fmtTime((currentTime - self.relay_time[2]) / 60)
             self.relay_time = [None, None, None]
         if fanTime:
-            msg += 'Fan %.2fmin\n' % ((currentTime - relays.fan_time) / 60)
+            msg += 'Fan %.2fmin\n' % fmtTime((currentTime - relays.fan_time) / 60)
             self.relay_time[0] = relays.fan_time
         if heatTime:
-            msg += 'Heat %.2fmin\n' % ((currentTime - relays.heat_time) / 60)
+            msg += 'Heat %.2fmin\n' % fmtTime((currentTime - relays.heat_time) / 60)
             self.relay_time[1] = relays.heat_time
         if coolTime:
-            msg += 'Cool %.2fmin\n' % ((currentTime - relays.cool_time) / 60)
+            msg += 'Cool %.2fmin\n' % fmtTime((currentTime - relays.cool_time) / 60)
             self.relay_time[2] = relays.cool_time
         self.sendNotification(msg)
 
