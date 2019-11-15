@@ -131,8 +131,8 @@ class Notifications(Job):
             msg += 'Heat %.2fmin\n' % fmtTime((currentTime - relays.heat_time) / 60)
             self.relay_time[1] = util.relays.heat_time
         if coolTime:
-            msg += 'Cool %.2fmin\n' % fmtTime((currentTime - relays.cool_time) / 60)
-            self.relay_time[2] = util.relays.cool_time
+            msg += 'Cool %.2fmin\n' % util.fmtTime((currentTime - relays.cool_time) / 60)
+            self.relay_time[2] = relays.cool_time
         self.sendNotification(msg)
 
     def sendNotification(self, msg):
